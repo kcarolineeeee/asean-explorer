@@ -157,3 +157,26 @@ body::before {
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: #f1ebd8; }
 ::-webkit-scrollbar-thumb { background: #caa049; border-radius: 4px; }
+
+/* ===== Responsive: phones and narrow windows (below 768px) ===== */
+@media (max-width: 767px) {
+  /* Let the page scroll instead of locking it to one screen */
+  body {
+    height: auto;
+    max-height: none;
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  /* Flags sit upright in a grid, no tilt (hover/selected still scale) */
+  .pole-unit:not(.pole-active):not(:hover) {
+    transform: none !important;
+  }
+
+  /* Bigger flags, sized to the screen width */
+  .flag-box-size {
+    width: clamp(84px, 26vw, 130px);
+    height: clamp(54px, 16.8vw, 84px);
+  }
+}
