@@ -1,0 +1,159 @@
+:root {
+  --encarta-green-grad: linear-gradient(180deg, #9fe635 0%, #6eb81f 48%, #4a8d0e 100%);
+  --encarta-yellow-grad: linear-gradient(180deg, #ffe566 0%, #fcbf19 50%, #dc8702 100%);
+  --winxp-blue: linear-gradient(180deg, #0f58dc 0%, #06399b 30%, #1653cd 70%, #0a3da5 100%);
+}
+
+body {
+  font-family: 'Fredoka', 'Nunito', sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+  background: #dc7e02;
+  background-image: 
+    radial-gradient(circle at 50% 15%, #fffae0 0%, #ffc83b 35%, #e67e00 70%, #9e3d00 100%),
+    radial-gradient(circle at 15% 85%, rgba(255, 230, 100, 0.4) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(255, 210, 50, 0.35) 0%, transparent 40%);
+  background-attachment: fixed;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1.5px, transparent 1.5px);
+  background-size: 20px 20px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.font-dos {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.win-xp-bar {
+  background: var(--winxp-blue);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+.cd-bevel-outer {
+  box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.9),
+              inset -3px -3px 0px rgba(0, 0, 0, 0.45),
+              0 16px 40px rgba(0,0,0,0.42);
+}
+
+.cd-bevel-btn {
+  box-shadow: inset 1px 1px 0px rgba(255, 255, 255, 0.85),
+              inset -1px -1px 0px rgba(0, 0, 0, 0.35),
+              0 3px 6px rgba(0,0,0,0.18);
+}
+
+.retro-press {
+  transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.retro-press:hover {
+  transform: translateY(-2px) scale(1.03);
+  filter: brightness(1.06);
+}
+.retro-press:active {
+  transform: translateY(2px) scale(0.97);
+}
+
+/* Ambient Encarta Edutainment Parchment Backdrop */
+.encarta-stage-bg {
+  background-color: #fffdf2;
+  background-image: 
+    radial-gradient(circle at 50% 40%, #ffffff 0%, #fffbe8 45%, #faecbd 80%, #f4dda2 100%),
+    linear-gradient(rgba(217, 169, 78, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(217, 169, 78, 0.08) 1px, transparent 1px);
+  background-size: 100% 100%, 28px 28px, 28px 28px;
+}
+
+/* Waving Fabric Animation */
+@keyframes flagWavingAnimation {
+  0%, 100% {
+    transform: perspective(400px) rotateY(0deg) skewY(0deg);
+    filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.25));
+  }
+  25% {
+    transform: perspective(400px) rotateY(-5deg) skewY(-1deg);
+    filter: drop-shadow(2px 5px 4px rgba(0,0,0,0.3));
+  }
+  75% {
+    transform: perspective(400px) rotateY(4deg) skewY(1deg);
+    filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.2));
+  }
+}
+
+.flag-cloth {
+  animation: flagWavingAnimation 3.6s infinite ease-in-out;
+  transform-origin: left center;
+  transition: all 0.25s ease;
+}
+
+.flag-cloth-right {
+  animation: flagWavingAnimation 3.6s infinite ease-in-out;
+  transform-origin: right center;
+  transition: all 0.25s ease;
+}
+
+/* Interactive Pole Unit */
+.pole-unit {
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.pole-unit:hover {
+  transform: scale(1.06) !important;
+  z-index: 40 !important;
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.35));
+}
+
+.pole-unit:hover .flag-cloth,
+.pole-unit:hover .flag-cloth-right {
+  animation-duration: 1.4s;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.38)) brightness(1.08);
+}
+
+.pole-active {
+  filter: drop-shadow(0 0 14px #ffeb3b) brightness(1.12) !important;
+  transform: scale(1.08) !important;
+  z-index: 45 !important;
+}
+
+/* Tactile Materials */
+.pole-wood {
+  background: linear-gradient(90deg, #5b300b 0%, #995c2a 45%, #e1ad79 65%, #421f04 100%);
+  box-shadow: 1px 2px 4px rgba(0,0,0,0.45);
+}
+
+.pole-metal {
+  background: linear-gradient(90deg, #64748b 0%, #cbd5e1 45%, #ffffff 70%, #475569 100%);
+  box-shadow: 1px 2px 4px rgba(0,0,0,0.4);
+}
+
+.finial-gold {
+  background: radial-gradient(circle at 35% 35%, #fffde7 0%, #fbc02d 50%, #f57f17 100%);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+/* Fixed Stable Sizing Tokens */
+.flag-box-size {
+  width: clamp(66px, 7.8vw, 108px);
+  height: clamp(42px, 5.2vw, 70px);
+}
+.flag-pole-length {
+  width: clamp(70px, 8.2vw, 115px);
+  height: clamp(6px, 0.9vw, 10px);
+}
+.finial-size {
+  width: clamp(10px, 1.3vw, 16px);
+  height: clamp(10px, 1.3vw, 16px);
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #f1ebd8; }
+::-webkit-scrollbar-thumb { background: #caa049; border-radius: 4px; }

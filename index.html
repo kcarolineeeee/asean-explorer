@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Microsoft Encarta Kids 2000 - Experience ASEAN</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700;800&family=JetBrains+Mono:wght@600;700;800&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="p-1 sm:p-2.5 flex flex-col items-center justify-center relative z-10">
+
+  <!-- Audio Element -->
+  <audio id="anthemAudio" preload="auto"></audio>
+
+  <!-- Main WinXP / Encarta App Window (Fit to 98vh) -->
+  <div class="w-full max-w-7xl h-[98vh] max-h-[98vh] bg-[#ece9d8] rounded-t-xl rounded-b-2xl cd-bevel-outer border-4 border-[#0055ea] flex flex-col justify-between overflow-hidden shadow-2xl">
+    
+    <!-- Titlebar -->
+    <div class="win-xp-bar px-3 py-1 flex items-center justify-between text-white select-none flex-shrink-0">
+      <div class="flex items-center space-x-2">
+        <svg class="w-4 h-4 sm:w-5 sm:h-5 drop-shadow" viewBox="0 0 24 24" fill="none">
+          <ellipse cx="9" cy="9" rx="7" ry="5" fill="#a4f63c" transform="rotate(-30 9 9)"/>
+          <ellipse cx="15" cy="11" rx="6" ry="4" fill="#69c314" opacity="0.85" transform="rotate(25 15 11)"/>
+          <ellipse cx="12" cy="16" rx="5" ry="3.5" fill="#3b9604" opacity="0.9" transform="rotate(-10 12 16)"/>
+        </svg>
+        <span class="text-xs sm:text-sm font-bold tracking-wide font-sans flex items-center gap-1.5">
+          <span>Microsoft Encarta Kids 2000</span>
+          <span class="text-blue-200 hidden sm:inline">— [Experience ASEAN: Anthems Edition]</span>
+        </span>
+      </div>
+      <div class="flex items-center space-x-1.5">
+        <button onclick="playRetroClick()" class="w-5 h-4 sm:w-6 sm:h-5 rounded bg-gradient-to-b from-[#3a7af7] to-[#1242bd] hover:brightness-110 active:brightness-90 text-white font-bold flex items-center justify-center border border-white/60 shadow text-[10px] pb-1 font-mono">_</button>
+        <button onclick="playRetroClick()" class="w-5 h-4 sm:w-6 sm:h-5 rounded bg-gradient-to-b from-[#3a7af7] to-[#1242bd] hover:brightness-110 active:brightness-90 text-white font-bold flex items-center justify-center border border-white/60 shadow text-[10px] font-mono">□</button>
+        <button onclick="showToast('Thank you for exploring ASEAN with Encarta Kids!')" class="w-5 h-4 sm:w-6 sm:h-5 rounded bg-gradient-to-b from-[#eb6a4f] to-[#cc2717] hover:brightness-110 active:brightness-90 text-white font-bold flex items-center justify-center border border-white/60 shadow text-[10px] font-mono">×</button>
+      </div>
+    </div>
+
+    <!-- WinXP Dropdown Nav Menu -->
+    <div class="bg-[#f0ede0] border-b border-[#cbc6b2] px-3 py-0.5 text-xs text-slate-700 flex flex-wrap gap-4 font-sans select-none items-center flex-shrink-0">
+      <span class="hover:bg-blue-600 hover:text-white px-2 py-0.5 rounded cursor-pointer" onclick="resetToCenter()"><u>O</u>verview</span>
+      <span class="hover:bg-blue-600 hover:text-white px-2 py-0.5 rounded cursor-pointer" onclick="startFlagQuiz()"><u>Q</u>uiz Mode</span>
+      <span class="hover:bg-blue-600 hover:text-white px-2 py-0.5 rounded cursor-pointer" onclick="playRandomNation()"><u>R</u>andom Nation</span>
+      <span class="hover:bg-blue-600 hover:text-white px-2 py-0.5 rounded cursor-pointer" onclick="toggleSfx()"><u>S</u>ound FX</span>
+      <div class="ml-auto text-[11px] text-emerald-800 font-bold hidden md:flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>SOUTHEAST ASIAN NATIONS EXPLORER</span>
+      </div>
+    </div>
+
+    <!-- Encarta Kids Glossy Ribbon Toolbar -->
+    <div class="p-1.5 sm:p-2 border-b-4 border-[#3e750e] shadow-md relative flex-shrink-0" style="background: var(--encarta-green-grad);">
+      <div class="flex flex-wrap items-center justify-between gap-1.5 sm:gap-2">
+        <div class="flex items-center space-x-1.5">
+          <button onclick="resetToCenter()" class="retro-press cd-bevel-btn w-8 h-8 rounded-full bg-gradient-to-b from-yellow-200 via-amber-400 to-yellow-500 border-2 border-white flex items-center justify-center" title="Experience ASEAN Central Hub">
+            <svg class="w-4 h-4 fill-amber-950" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          </button>
+          <button onclick="navigatePole(-1)" class="retro-press cd-bevel-btn w-7 h-7 rounded-full bg-gradient-to-b from-lime-200 via-lime-400 to-green-600 border-2 border-white flex items-center justify-center" title="Previous Nation">
+            <svg class="w-3.5 h-3.5 fill-emerald-950" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+          </button>
+          <button onclick="navigatePole(1)" class="retro-press cd-bevel-btn w-7 h-7 rounded-full bg-gradient-to-b from-lime-200 via-lime-400 to-green-600 border-2 border-white flex items-center justify-center" title="Next Nation">
+            <svg class="w-3.5 h-3.5 fill-emerald-950" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+          </button>
+          <button onclick="startFlagQuiz()" class="retro-press cd-bevel-btn hidden sm:flex items-center space-x-1 px-2.5 py-0.5 rounded-full bg-gradient-to-b from-amber-200 via-amber-300 to-yellow-500 border-2 border-white text-xs font-bold text-amber-950">
+            <span>🎯</span>
+            <span>Quiz</span>
+          </button>
+        </div>
+
+        <div class="flex-1 max-w-xs sm:max-w-sm mx-1.5">
+          <div class="relative flex items-center">
+            <input id="quickSearchInput" oninput="highlightSearchedNation(this.value)" type="text" placeholder="Search country (e.g. Thailand, Manila)..." 
+                   class="w-full pl-8 pr-7 py-0.5 sm:py-1 rounded-full border-2 border-lime-800 bg-white/95 text-slate-800 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-yellow-300 shadow-inner placeholder:text-slate-400" />
+            <svg class="w-3.5 h-3.5 text-emerald-800 absolute left-2.5 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="7"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-1.5">
+          <button id="sfxToggleBtn" onclick="toggleSfx()" class="p-1 rounded-full bg-lime-800/60 hover:bg-lime-800 text-white border border-white/40 shadow text-xs font-bold" title="Toggle Sound FX">
+            <span id="sfxIcon">🔊</span>
+          </button>
+          <div class="flex items-center bg-white/20 backdrop-blur-sm px-2 py-0.5 rounded-2xl border border-white/40 shadow-sm">
+            <div class="text-right leading-none">
+              <div class="text-[8px] tracking-wider uppercase font-extrabold text-lime-100">Microsoft</div>
+              <div class="text-xs sm:text-sm font-black tracking-tight text-white drop-shadow">Encarta</div>
+            </div>
+            <div class="ml-1 px-1 py-0.2 rounded-md bg-yellow-400 text-amber-950 text-[9px] font-black tracking-widest uppercase shadow">Kids</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN DISPLAY AREA (FIXED GRID BOUNDARIES TO PREVENT SHIFTS) -->
+    <div class="relative encarta-stage-bg flex-1 min-h-0 p-1.5 sm:p-2.5 flex flex-col justify-between overflow-hidden">
+      
+      <!-- Ambient Compass Watermark SVG -->
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.07] overflow-hidden">
+        <svg class="w-[450px] h-[450px] text-amber-900" viewBox="0 0 100 100" fill="currentColor">
+          <circle cx="50" cy="50" r="48" stroke="currentColor" stroke-width="1.2" fill="none"/>
+          <circle cx="50" cy="50" r="38" stroke="currentColor" stroke-width="0.8" stroke-dasharray="2,2" fill="none"/>
+          <circle cx="50" cy="50" r="24" stroke="currentColor" stroke-width="0.8" fill="none"/>
+          <polygon points="50,4 54,42 50,46 46,42"/>
+          <polygon points="50,96 54,58 50,54 46,58"/>
+          <polygon points="4,50 42,46 46,50 42,54"/>
+          <polygon points="96,50 58,46 54,50 58,54"/>
+        </svg>
+      </div>
+
+      <!-- Upper Stage Grid: Left Wing (3 Flags) | Central Stage | Right Wing (3 Flags) -->
+      <div class="grid grid-cols-12 gap-1 sm:gap-2 flex-1 min-h-0 items-stretch relative z-10">
+        
+        <!-- LEFT WING: 3 FLAGS (Indonesia, Malaysia, Philippines) -->
+        <div class="col-span-3 sm:col-span-3 flex flex-col justify-between py-1 border-r-2 border-dashed border-amber-300/60 overflow-hidden">
+          
+          <!-- Slot 1: Indonesia (id) -->
+          <div class="h-1/3 flex items-center justify-start pl-1 sm:pl-2">
+            <div id="rig-id" onclick="selectCountry('id')" class="pole-unit flex items-center" style="transform: rotate(-15deg);">
+              <div class="relative flex items-center">
+                <div class="pole-wood flag-pole-length rounded-full relative">
+                  <div class="finial-gold finial-size rounded-full absolute -right-1 -top-0.5"></div>
+                </div>
+                <div class="absolute left-1.5 -top-12 sm:-top-16">
+                  <div class="flag-cloth flag-box-size rounded border border-red-900/30 overflow-hidden bg-white shadow-md">
+                    <img src="https://flagcdn.com/id.svg" alt="Indonesia Flag" class="w-full h-full object-cover">
+                  </div>
+                  <div class="bg-red-800 text-white text-[9px] sm:text-[11px] font-bold px-1.5 py-0.2 rounded shadow mt-0.5 text-center truncate max-w-[80px] sm:max-w-[110px]">
+                    🇮🇩 Indonesia
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slot 2: Malaysia (my) -->
+          <div class="h-1/3 flex items-center justify-start pl-1 sm:pl-2">
+            <div id="rig-my" onclick="selectCountry('my')" class="pole-unit flex items-center" style="transform: rotate(-17deg);">
+              <div class="relative flex items-center">
+                <div class="pole-wood flag-pole-length rounded-full relative">
+                  <div class="finial-gold finial-size rounded-full absolute -right-1 -top-0.5"></div>
+                </div>
+                <div class="absolute left-1.5 -top-12 sm:-top-16">
+                  <div class="flag-cloth flag-box-size rounded border border-blue-900/40 overflow-hidden bg-white shadow-md">
+                    <img src="https://flagcdn.com/my.svg" alt="Malaysia Flag" class="w-full h-full object-cover">
+                  </div>
+                  <div class="bg-blue-900 text-yellow-300 text-[9px] sm:text-[11px] font-bold px-1.5 py-0.2 rounded shadow mt-0.5 text-center truncate max-w-[80px] sm:max-w-[110px]">
+                    🇲🇾 Malaysia
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slot 3: Philippines (ph) -->
+          <div class="h-1/3 flex items-center justify-start pl-1 sm:pl-2">
+            <div id="rig-ph" onclick="selectCountry('ph')" class="pole-unit flex items-center" style="transform: rotate(-13deg);">
+              <div class="relative flex items-center">
+                <div class="pole-metal flag-pole-length rounded-full relative">
+                  <div class="finial-gold finial-size rounded-full absolute -right-1 -top-0.5"></div>
+                </div>
+                <div class="absolute left-1.5 -top-12 sm:-top-16">
+                  <div class="flag-cloth flag-box-size rounded border border-blue-900/40 overflow-hidden bg-white shadow-md">
+                    <img src="https://flagcdn.com/ph.svg" alt="Philippines Flag" class="w-full h-full object-cover">
+                  </div>
+                  <div class="bg-blue-800 text-yellow-300 text-[9px] sm:text-[11px] font-bold px-1.5 py-0.2 rounded shadow mt-0.5 text-center truncate max-w-[80px] sm:max-w-[110px]">
+                    🇵🇭 Philippines
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- CENTER STAGE: "EXPERIENCE ASEAN" / DOSSIER / QUIZ -->
+        <div class="col-span-6 sm:col-span-6 flex flex-col items-center justify-center text-center p-1 sm:p-2 my-auto overflow-hidden">
+          
+          <!-- Default "Experience ASEAN" Mode -->
+          <div id="centralHeroBlock" class="flex flex-col items-center max-w-sm sm:max-w-md w-full bg-white/70 backdrop-blur-sm p-3 rounded-2xl border-2 border-amber-300/80 shadow-lg">
+            <div class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-amber-200/90 border border-amber-400 text-amber-950 text-[10px] sm:text-[11px] font-black shadow-sm mb-1.5">
+              <span>🌏</span>
+              <span>11 SOUTHEAST ASIAN NATIONS</span>
+            </div>
+            
+            <h1 class="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-none drop-shadow-sm">
+              Experience<br/>
+              <span class="text-[#003399]">ASEAN</span>
+            </h1>
+
+            <p class="text-[11px] sm:text-xs font-bold text-slate-700 mt-2 max-w-xs sm:max-w-sm leading-relaxed">
+              Framed by all 11 nations. Click any flagpole along the perimeter to hear its national anthem and unlock Encarta trivia!
+            </p>
+
+            <div class="mt-3 flex flex-wrap justify-center gap-2">
+              <button onclick="playRandomNation()" class="retro-press cd-bevel-btn px-3 py-1 rounded-xl bg-gradient-to-b from-yellow-300 to-amber-500 border-2 border-white text-amber-950 text-xs font-black flex items-center gap-1 shadow">
+                <span>🎲</span> <span>Surprise Country</span>
+              </button>
+              <button onclick="startFlagQuiz()" class="retro-press cd-bevel-btn px-3 py-1 rounded-xl bg-gradient-to-b from-lime-400 to-green-600 border-2 border-white text-emerald-950 text-xs font-black flex items-center gap-1 shadow">
+                <span>🎯</span> <span>Flag Quiz</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Dynamic Encarta Kids Country Fact Card -->
+          <div id="centralDossierCard" class="hidden w-full max-w-md bg-white/95 backdrop-blur-md rounded-2xl border-4 border-yellow-400 shadow-xl p-2.5 sm:p-3 text-left">
+            <div class="flex items-center justify-between border-b-2 border-amber-100 pb-1 mb-1">
+              <div class="flex items-center space-x-2">
+                <span id="dossierIso" class="bg-blue-600 text-white font-mono text-[11px] font-black px-1.5 py-0.2 rounded shadow">ID</span>
+                <div>
+                  <h3 id="dossierTitle" class="text-sm sm:text-base font-black text-slate-900 leading-tight">Republic of Indonesia</h3>
+                  <div id="dossierCapital" class="text-[10px] sm:text-[11px] font-bold text-amber-900">Capital: Jakarta / Nusantara</div>
+                </div>
+              </div>
+              <button onclick="resetToCenter()" class="text-slate-400 hover:text-slate-700 font-black text-base p-0.5" title="Back to Overview">×</button>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-2 gap-1.5 text-xs font-bold mb-1">
+              <div class="bg-amber-50/90 p-1.5 rounded-lg border border-amber-200">
+                <div class="text-[9px] text-slate-500 uppercase">👥 Population</div>
+                <div id="dossierPop" class="text-slate-800 text-[11px] font-extrabold truncate">278 Million</div>
+              </div>
+              <div class="bg-amber-50/90 p-1.5 rounded-lg border border-amber-200">
+                <div class="text-[9px] text-slate-500 uppercase">💵 Currency</div>
+                <div id="dossierCurrency" class="text-slate-800 text-[11px] font-extrabold truncate">Rupiah (IDR)</div>
+              </div>
+              <div class="bg-amber-50/90 p-1.5 rounded-lg border border-amber-200">
+                <div class="text-[9px] text-slate-500 uppercase">🐯 Symbol</div>
+                <div id="dossierAnimal" class="text-slate-800 text-[11px] font-extrabold truncate">Komodo Dragon</div>
+              </div>
+              <div class="bg-amber-50/90 p-1.5 rounded-lg border border-amber-200">
+                <div class="text-[9px] text-slate-500 uppercase">🤝 Member Since</div>
+                <div id="dossierJoined" class="text-slate-800 text-[11px] font-extrabold truncate">1967 (Founder)</div>
+              </div>
+            </div>
+
+            <!-- Fun Fact Bubble -->
+            <div class="bg-lime-50 border border-lime-300 rounded-xl p-1.5 text-[11px] text-slate-700 mb-1.5">
+              <span class="font-black text-lime-900">💡 Encarta Fact: </span>
+              <span id="dossierFact">Indonesia has over 17,000 islands spanning 3 time zones!</span>
+            </div>
+
+            <!-- Bottom Action Row -->
+            <div class="flex items-center justify-between pt-0.5">
+              <div class="text-[11px] font-extrabold text-slate-700 truncate max-w-[170px]" id="dossierAnthem">
+                🎵 Javanese Gamelan
+              </div>
+              <div class="flex items-center space-x-1.5">
+                <button id="dossierPlayBtn" onclick="togglePlayPause()" class="retro-press cd-bevel-btn px-2 py-0.5 rounded-lg bg-gradient-to-b from-lime-400 to-green-600 text-emerald-950 font-black text-xs flex items-center gap-1 shadow">
+                  <span>▶</span> <span>Play Music</span>
+                </button>
+                <button onclick="resetToCenter()" class="retro-press cd-bevel-btn px-2 py-0.5 rounded-lg bg-slate-200 text-slate-700 font-bold text-xs">
+                  Overview
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Quiz Card -->
+          <div id="centralQuizCard" class="hidden w-full max-w-sm sm:max-w-md bg-slate-900 text-white rounded-2xl border-4 border-yellow-400 shadow-xl p-3 text-center">
+            <div class="flex items-center justify-between text-xs text-yellow-300 font-bold mb-1.5">
+              <span>🎯 ENCARTA KIDS FLAG TRIVIA</span>
+              <span id="quizScore">Score: 0</span>
+            </div>
+            <div class="text-xs sm:text-sm font-black mb-2" id="quizQuestion">
+              Which country's flag features Angkor Wat?
+            </div>
+            <div id="quizOptions" class="grid grid-cols-2 gap-1.5 text-xs font-bold"></div>
+            <button onclick="resetToCenter()" class="mt-2 text-[10px] text-slate-400 hover:text-white underline">
+              Return to Experience ASEAN
+            </button>
+          </div>
+
+        </div>
+
+        <!-- RIGHT WING: 3 FLAGS (Thailand, Timor-Leste, Brunei) -->
+        <div class="col-span-3 sm:col-span-3 flex flex-col justify-between py-1 border-l-2 border-dashed border-amber-300/60 overflow-hidden">
+          
+          <!-- Slot 4: Thailand (th) -->
+          <div class="h-1/3 flex items-center justify-end pr-1 sm:pr-2">
+            <div id="rig-th" onclick="selectCountry('th')" class="pole-unit flex items-center" style="transform: rotate(15deg);">
+              <div class="relative flex items-center justify-end">
+                <div class="absolute right-1.5 -top-12 sm:-top-16">
+                  <div class="flag-cloth-right flag-box-size rounded border border-indigo-900/30 overflow-hidden bg-white shadow-md">
+                    <img src="https://flagcdn.com/th.svg" alt="Thailand Flag" class="w-full h-full object-cover">
+                  </div>
+                  <div class="bg-indigo-950 text-white text-[9px] sm:text-[11px] font-bold px-1.5 py-0.2 rounded shadow mt-0.5 text-center truncate max-w-[80px] sm:max-w-[110px]">
+                    🇹🇭 Thailand
+                  </div>
+                </div>
+                <div class="pole-wood flag-pole-length rounded-full relative">
+                  <div class="finial-gold finial-size rounded-full absolute -left-1 -top-0.5"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slot 5: Timor-Leste (tl) -->
+          <div class="h-1/3 flex items-center justify-end pr-1 sm:pr-2">
+            <div id="rig-tl" onclick="selectCountry('tl')" class="pole-unit flex items-center" style="transform: rotate(17deg);">
+              <div class="relative flex items-center justify-end">
+                <div class="absolute right-1.5 -top-12 sm:-top-16">
+                  <div class="flag-cloth-right flag-box-size rounded border border-red-900/40 overflow-hidden bg-white shadow-md">
+                    <img src="https://flagcdn.com/tl.svg" alt="Timor-Leste Flag" class="w-full h-full object-cover">
+                  </div>
+                  <div class="bg-red-800 text-yellow-300 text-[9px] sm:text-[11px] font-bold px-1.5 py-0.2 rounded shadow mt-0.5 text-center truncate max-w-[80px] sm:max-w-[110px]">
+                    🇹🇱 Timor-Leste
+                  </div>
+                </div>
+                <div class="pole-metal flag-pole-length rounded-full relative">
+                  <div class="finial-gold finial-size rounded-full absolute -left-1 -top-0.5"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slot 6: Brunei (bn) -->
+          <div class="h-1/3 flex items-center justify-end pr-1 sm:pr-2">
+            <div id="rig-bn" onclick="selectCountry('bn')" class="pole-unit flex items-center" style="transform: rotate(13deg);">
+              <div class="relative flex items-center justify-end">
+                <div class="absolute right-1.5 -top-12 sm:-top-16">
+                  <div class="flag-cloth-right flag-box-size rounded border border-amber-900/40 overflow-hidden bg-white shadow-md">
+                    <img src="https://flagcdn.com/bn.svg" alt="Brunei Flag" class="w-full h-full object-cover">
+                  </div>
+                  <div class="bg-amber-900 text-yellow-300 text-[9px] sm:text-[11px] font-bold px-1.5 py-0.2 rounded shadow mt-0.5 text-center truncate max-w-[80px] sm:max-w-[110px]">
+                    🇧🇳 Brunei
+                  </div>
+                </div>
+                <div class="pole-wood flag-pole-length rounded-full relative">
+                  <div class="finial-gold finial-size rounded-full absolute -left-1 -top-0.5"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- BOTTOM ROW: EXACTLY 5 FLAGS EQUIDISTANTLY COMPARTMENTALIZED -->
+      <div class="w-full pt-1.5 pb-0.5 border-t-2 border-amber-300/80 mt-1 grid grid-cols-5 gap-1 items-end relative z-10 flex-shrink-0">
+        
+        <!-- Slot 7: Singapore (sg) -->
+        <div class="flex justify-center items-end">
+          <div id="rig-sg" onclick="selectCountry('sg')" class="pole-unit flex flex-col items-center" style="transform: rotate(-14deg);">
+            <div class="flag-cloth flag-box-size rounded border border-red-900/40 overflow-hidden bg-white shadow-md mb-0.5">
+              <img src="https://flagcdn.com/sg.svg" alt="Singapore Flag" class="w-full h-full object-cover">
+            </div>
+            <div class="bg-red-700 text-white text-[8px] sm:text-[10px] font-bold px-1.5 py-0.2 rounded shadow mb-0.5 truncate max-w-[75px] sm:max-w-[100px] text-center">
+              🇸🇬 Singapore
+            </div>
+            <div class="pole-wood w-2 sm:w-2.5 h-8 sm:h-12 rounded-full relative">
+              <div class="finial-gold w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full absolute -top-1 -left-0.5"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slot 8: Vietnam (vn) -->
+        <div class="flex justify-center items-end">
+          <div id="rig-vn" onclick="selectCountry('vn')" class="pole-unit flex flex-col items-center" style="transform: rotate(-7deg);">
+            <div class="flag-cloth flag-box-size rounded border border-red-900/40 overflow-hidden bg-white shadow-md mb-0.5">
+              <img src="https://flagcdn.com/vn.svg" alt="Vietnam Flag" class="w-full h-full object-cover">
+            </div>
+            <div class="bg-red-800 text-yellow-300 text-[8px] sm:text-[10px] font-bold px-1.5 py-0.2 rounded shadow mb-0.5 truncate max-w-[75px] sm:max-w-[100px] text-center">
+              🇻🇳 Vietnam
+            </div>
+            <div class="pole-metal w-2 sm:w-2.5 h-10 sm:h-14 rounded-full relative">
+              <div class="finial-gold w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full absolute -top-1 -left-0.5"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slot 9: Laos (la) - Center -->
+        <div class="flex justify-center items-end">
+          <div id="rig-la" onclick="selectCountry('la')" class="pole-unit flex flex-col items-center" style="transform: rotate(0deg);">
+            <div class="flag-cloth flag-box-size rounded border border-red-900/40 overflow-hidden bg-white shadow-md mb-0.5">
+              <img src="https://flagcdn.com/la.svg" alt="Laos Flag" class="w-full h-full object-cover">
+            </div>
+            <div class="bg-red-950 text-white text-[8px] sm:text-[10px] font-bold px-1.5 py-0.2 rounded shadow mb-0.5 truncate max-w-[75px] sm:max-w-[100px] text-center">
+              🇱🇦 Laos
+            </div>
+            <div class="pole-wood w-2 sm:w-2.5 h-11 sm:h-16 rounded-full relative">
+              <div class="finial-gold w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full absolute -top-1 -left-0.5"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slot 10: Myanmar (mm) -->
+        <div class="flex justify-center items-end">
+          <div id="rig-mm" onclick="selectCountry('mm')" class="pole-unit flex flex-col items-center" style="transform: rotate(7deg);">
+            <div class="flag-cloth flag-box-size rounded border border-amber-900/40 overflow-hidden bg-white shadow-md mb-0.5">
+              <img src="https://flagcdn.com/mm.svg" alt="Myanmar Flag" class="w-full h-full object-cover">
+            </div>
+            <div class="bg-emerald-800 text-yellow-300 text-[8px] sm:text-[10px] font-bold px-1.5 py-0.2 rounded shadow mb-0.5 truncate max-w-[75px] sm:max-w-[100px] text-center">
+              🇲🇲 Myanmar
+            </div>
+            <div class="pole-metal w-2 sm:w-2.5 h-10 sm:h-14 rounded-full relative">
+              <div class="finial-gold w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full absolute -top-1 -left-0.5"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slot 11: Cambodia (kh) -->
+        <div class="flex justify-center items-end">
+          <div id="rig-kh" onclick="selectCountry('kh')" class="pole-unit flex flex-col items-center" style="transform: rotate(14deg);">
+            <div class="flag-cloth flag-box-size rounded border border-blue-900/40 overflow-hidden bg-white shadow-md mb-0.5">
+              <img src="https://flagcdn.com/kh.svg" alt="Cambodia Flag" class="w-full h-full object-cover">
+            </div>
+            <div class="bg-blue-900 text-white text-[8px] sm:text-[10px] font-bold px-1.5 py-0.2 rounded shadow mb-0.5 truncate max-w-[75px] sm:max-w-[100px] text-center">
+              🇰🇭 Cambodia
+            </div>
+            <div class="pole-wood w-2 sm:w-2.5 h-8 sm:h-12 rounded-full relative">
+              <div class="finial-gold w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full absolute -top-1 -left-0.5"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RETRO CD-ROM MEDIA CONTROLLER & LED VISUALIZER -->
+      <div class="relative z-30 mt-1 bg-gradient-to-r from-[#1e293b] via-[#0f172a] to-[#1e293b] text-white p-1.5 sm:p-2 rounded-2xl border-4 border-yellow-400 shadow-xl flex flex-col md:flex-row items-center justify-between gap-1.5 flex-shrink-0">
+        
+        <!-- Player Info -->
+        <div class="flex items-center space-x-2 w-full md:w-auto">
+          <div class="relative w-8 h-8 sm:w-10 sm:h-10 rounded-xl overflow-hidden border-2 border-yellow-400 bg-slate-900 flex-shrink-0 flex items-center justify-center">
+            <img id="mediaPlayerFlag" src="https://flagcdn.com/id.svg" alt="Flag" class="w-full h-full object-cover">
+          </div>
+          <div class="overflow-hidden min-w-[130px]">
+            <div class="flex items-center space-x-1.5">
+              <span class="text-[8px] uppercase tracking-wider font-extrabold px-1 py-0.2 rounded bg-yellow-400 text-slate-900">NOW PLAYING</span>
+              <span id="mediaPlayerCountry" class="text-[11px] text-lime-400 font-mono font-bold">[ID] INDONESIA</span>
+            </div>
+            <div id="mediaPlayerTitle" class="text-xs sm:text-sm font-black truncate text-white">
+              Javanese Gamelan (Traditional Music)
+            </div>
+            <div class="text-[9px] text-slate-300 font-mono flex items-center gap-1.5">
+              <span id="mediaTimer">00:00</span>
+              <span>•</span>
+              <span id="audioSourceBadge" class="text-emerald-400 font-bold">AUTHENTIC INSTRUMENTAL</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Graphic LED Equalizer Canvas -->
+        <div class="w-full md:w-52 h-6 sm:h-7 bg-black rounded-lg border-2 border-slate-700 p-0.5 flex items-end overflow-hidden shadow-inner">
+          <canvas id="visualizerCanvas" width="220" height="26" class="w-full h-full"></canvas>
+        </div>
+
+        <!-- Audio Controls -->
+        <div class="flex items-center space-x-1.5">
+          <button onclick="navigatePole(-1)" title="Previous Country" class="retro-press cd-bevel-btn p-1.5 rounded-xl bg-slate-700 hover:bg-slate-600 border border-slate-500 shadow">
+            <svg class="w-3 h-3 fill-white" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+          </button>
+
+          <button id="masterPlayBtn" onclick="togglePlayPause()" class="retro-press cd-bevel-btn px-2.5 py-1 rounded-xl bg-gradient-to-b from-lime-400 via-lime-500 to-green-600 border-2 border-white text-emerald-950 font-black flex items-center space-x-1 shadow">
+            <span id="playIcon">▶</span>
+            <span id="playLabel" class="text-[11px] uppercase font-extrabold">PLAY</span>
+          </button>
+
+          <button onclick="navigatePole(1)" title="Next Country" class="retro-press cd-bevel-btn p-1.5 rounded-xl bg-slate-700 hover:bg-slate-600 border border-slate-500 shadow">
+            <svg class="w-3 h-3 fill-white" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+          </button>
+
+          <div class="flex items-center space-x-1.5 bg-slate-800 px-2 py-0.5 rounded-xl border border-slate-600">
+            <button onclick="toggleMute()" id="muteBtn" class="text-xs">🔊</button>
+            <input oninput="changeVolume(this.value)" type="range" min="0" max="1" step="0.05" value="0.75" class="w-10 sm:w-14 accent-lime-400 cursor-pointer h-1.5 bg-slate-600 rounded">
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- WinXP Status Bar -->
+    <div class="bg-[#ece9d8] border-t-2 border-[#cbc6b2] px-3 py-0.5 text-xs text-slate-700 flex flex-wrap items-center justify-between font-sans flex-shrink-0">
+      <div class="flex items-center space-x-3">
+        <span class="flex items-center gap-1 font-bold">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
+          <span>11 Member States: Experience Southeast Asia</span>
+        </span>
+        <span class="hidden sm:inline text-slate-400">|</span>
+        <span class="hidden sm:inline text-blue-900 font-bold">Encarta Kids 2000 Multimedia Anthems</span>
+      </div>
+      <div class="font-mono text-[10px] text-slate-600">
+        ASEAN_ANTHEMS.EXE
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 bg-slate-900/95 text-white px-4 py-2 rounded-xl border-2 border-yellow-400 shadow-2xl text-xs font-bold transition-all duration-300 opacity-0 pointer-events-none translate-y-3 z-50 flex items-center space-x-2">
+    <span>💡</span>
+    <span id="toastMsg">Ready!</span>
+  </div>
+
+  <!-- Scripts (order matters: each file depends on the ones above it) -->
+  <script src="js/data.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/visualizer.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
